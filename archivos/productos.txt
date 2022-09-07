@@ -1,0 +1,72 @@
+[
+	{
+		"codigo": "LPM1",
+		"nombre": "caballo de peluche",
+		"precio": 400,
+		"stock": 10,
+		"foto": "https://cdn3.iconfinder.com/data/icons/logos-brands-3/24/logo_brand_brands_logos_vlc_media_player-128.png",
+		"id": 3,
+		"descripcion": "perro de peluche indestructible y lavable",
+		"timestamp": "fecha y hora"
+	},
+	{
+		"codigo": "LPM1",
+		"nombre": "mono de peluche",
+		"precio": 400,
+		"stock": 10,
+		"foto": "https://cdn3.iconfinder.com/data/icons/logos-brands-3/24/logo_brand_brands_logos_vlc_media_player-128.png",
+		"id": 5,
+		"descripcion": "perro de peluche indestructible y lavable",
+		"timestamp": "fecha y hora"
+	},
+	{
+		"codigo": "LPM1",
+		"nombre": "perro peluche",
+		"precio": 400,
+		"stock": 10,
+		"foto": "https://cdn3.iconfinder.com/data/icons/logos-brands-3/24/logo_brand_brands_logos_vlc_media_player-128.png",
+		"id": 6,
+		"descripcion": "perro de peluche indestructible y lavable",
+		"timestamp": "fecha y hora"
+	},
+	{
+		"id": 11,
+		"codigo": "LPM3",
+		"nombre": "Gato falso",
+		"descripcion": "lalalalallalala",
+		"foto": "https://img.freepik.com/vector-gratis/lindo-gato-estirando-dibujos-animados-vector-icono-ilustracion-animal-naturaleza-icono-concepto-aislado-plano_138676-4515.jpg?w=2000",
+		"timestamp": "2022-09-06T19:46:59.743Z",
+		"precio": "3450",
+		"stock": "12"
+	},
+	{
+		"id": 12,
+		"codigo": "LPM3",
+		"nombre": "Gato volador",
+		"descripcion": "lalalalallalala",
+		"foto": "https://img.freepik.com/vector-gratis/lindo-gato-estirando-dibujos-animados-vector-icono-ilustracion-animal-naturaleza-icono-concepto-aislado-plano_138676-4515.jpg?w=2000",
+		"timestamp": "2022-09-06T19:46:59.743Z",
+		"precio": "3450",
+		"stock": "12"
+	},
+	{
+		"id": 13,
+		"codigo": "LPM3",
+		"nombre": "Gato falso",
+		"descripcion": "lalalalallalala",
+		"foto": "https://img.freepik.com/vector-gratis/lindo-gato-estirando-dibujos-animados-vector-icono-ilustracion-animal-naturaleza-icono-concepto-aislado-plano_138676-4515.jpg?w=2000",
+		"timestamp": "2022-09-06T19:46:59.743Z",
+		"precio": "3450",
+		"stock": "12"
+	},
+	{
+		"id": 14,
+		"codigo": "LPM2",
+		"nombre": "Vaca de Peluche",
+		"descripcion": "gato de buena suerte",
+		"foto": "https://img.freepik.com/vector-gratis/lindo-gato-estirando-dibujos-animados-vector-icono-ilustracion-animal-naturaleza-icono-concepto-aislado-plano_138676-4515.jpg?w=2000",
+		"timestamp": "2022-09-06T22:41:44.238Z",
+		"precio": "5000",
+		"stock": "23"
+	}
+]

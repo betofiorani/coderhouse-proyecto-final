@@ -1,0 +1,42 @@
+[
+	{
+		"userEmail": "betofiorani@gmail.com",
+		"message": "hola",
+		"date": "2/8/2022 13:42"
+	},
+	{
+		"userEmail": "charly@crack.com",
+		"message": "La clavé al ángulo",
+		"date": "30/8/2022 13:49"
+	},
+	{
+		"userEmail": "betofiorani@gmail.com",
+		"message": "chau",
+		"date": "30/8/2022 14:51"
+	},
+	{
+		"userEmail": "betofiorani@gmail.com",
+		"message": "hola de nuevo",
+		"date": "30/8/2022 15:0"
+	},
+	{
+		"userEmail": "andy@gmail.com",
+		"message": "funciona",
+		"date": "30/8/2022 15:24"
+	},
+	{
+		"userEmail": "betofiorani@gmail.com",
+		"message": "hola",
+		"date": "31/8/2022 14:40"
+	},
+	{
+		"userEmail": "betofiorani@gmail.com",
+		"message": "Hola de nueva",
+		"date": "31/8/2022 14:43"
+	},
+	{
+		"userEmail": "charly@crack.com",
+		"message": "volvi",
+		"date": "31/8/2022 15:22"
+	}
+]

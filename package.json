@@ -1,0 +1,29 @@
+{
+  "name": "npm",
+  "version": "1.0.0",
+  "description": "coderhouse",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "nodemon ./server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/betofiorani/coderhouse-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/betofiorani/coderhouse-backend/issues"
+  },
+  "homepage": "https://github.com/betofiorani/coderhouse-backend#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-handlebars": "^6.0.6",
+    "nodemon": "^2.0.19",
+    "socket.io": "^4.5.1",
+    "typescript": "^4.8.2"
+  }
+}

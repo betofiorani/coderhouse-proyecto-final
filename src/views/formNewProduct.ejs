@@ -1,0 +1,20 @@
+<h1 style="color: white; background-color: black; padding: 10px 20px; font-size: 20px;">NUEVO PRODUCTO</h1>
+<div style="width: 80%; display: flex; flex-direction:column; ">
+  <form action="/api/productos"  method="POST">
+    <div style="display: flex; align-items:center; justify-content:center; margin-bottom: 18px;">
+      <label style="flex: 1">Title:</label> 
+      <input style="flex: 4" type="text" name="title">
+    </div>
+    <div style="display: flex; align-items:center; justify-content:center; margin-bottom: 18px;">
+      <label style="flex: 1">Price:</label> 
+      <input style="flex: 4" type="number" name="price">
+    </div>  
+    <div style="display: flex; align-items:center; justify-content:center; margin-bottom: 10px;">
+      <label style="flex: 1">Thumbnail:</label>
+      <input style="flex: 4" type="text" name="thumbnail">
+    </div>
+    <div style="display: flex; align-items:center; justify-content:space-around; padding-bottom: 10px">
+      <input style="font-size: 14px; padding: 10px 40px; color: white; background-color:black; border: 1px solid black; border-radius: 4;" type="submit" value="CREAR">
+    </div>
+  </form>
+</div>

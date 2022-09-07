@@ -1,0 +1,22 @@
+<div style="width: 100%; display: flex; flex-direction:column; justify-content: center; align-items:center; background-color:white; margin: 0 auto;">    
+  <% if(productos.length != 0){ %> 
+      <div style="display:flex; flex-direction:column; align-items:center; width: 100%; padding-bottom: 18px;">
+          <div style="width: 80%; background-color: gray; display: flex; justify-content:space-evenly; align-items: center; padding: 10px">
+              <div style="flex: 1; text-align:center; color: white;">id</div>
+              <div style="flex: 5; text-align:center; color: white;">Title</div>
+              <div style="flex: 2; text-align:center; color: white;">Price</div>
+              <div style="flex: 2; text-align:center; color: white;">Image</div>
+          </div>
+          <% productos.forEach(producto => { %>
+              <div style="width: 80%;padding: 3px 0; display: flex; justify-content:space-evenly; align-items: center;">
+                <div style="flex: 1; text-align:center"><%= producto.id %></div>
+                <div style="flex: 5; text-align:center"><%= producto.title %></div>
+                <div style="flex: 2; text-align:center"><%= producto.price %></div>
+                <div style="flex: 2; text-align:center;"><img style="max-width: 20px;" src="<%= producto.thumbnail %>" alt=""> </div>  
+              </div>
+          <% }) %> 
+      </div>
+  <% } else { %>
+              <p>No hay Productos disponibles</p>
+  <% } %>
+</div>

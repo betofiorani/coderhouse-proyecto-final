@@ -1,0 +1,16 @@
+<h1 style="color: white; background-color: black; padding: 10px 20px; font-size: 20px;">CHAT DE MENSAJES</h1>
+<div style="width: 80%; display: flex; flex-direction:column; ">
+  <form action="/api/chat"  method="POST">
+    <div style="display: flex; align-items:center; justify-content:center; margin-bottom: 18px;">
+      <label style="flex: 1">Email:</label> 
+      <input required style="flex: 4" type="email" name="userEmail">
+    </div>
+    <div style="display: flex; align-items:center; justify-content:center; margin-bottom: 18px;">
+      <label style="flex: 1">Mensaje:</label> 
+      <input style="flex: 4" type="text" name="message">
+    </div>  
+    <div style="display: flex; align-items:center; justify-content:space-around; padding-bottom: 18px">
+      <input style="font-size: 14px; padding: 10px 40px; color: white; background-color:black; border: 1px solid black; border-radius: 4;" type="submit" value="ENVIAR MENSAJE">
+    </div>
+  </form>
+</div>

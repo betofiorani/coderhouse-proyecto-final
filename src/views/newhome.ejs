@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/style.css" rel="stylesheet" type="text/css"> 
+    <script src="/ejs.min.js"></script>
+    <title>CoderHouse - proyecto integrador</title>
+</head>
+<body style="background-color: gray; padding-top: 10px; width: 100%; display: flex;">
+  <%- include('header',{}) %>
+  <div style="background-color: white; width: 40%; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding-bottom: 18px;">
+    <a href="/api/productos">Ecommerce</a>
+  </div>  
+  <div style="background-color: white; width: 40%; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding-bottom: 18px;">
+    <a href="/api/chat">Chatear con la comunidad</a>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/client.socket.js"></script>
+</body>
+</html>
