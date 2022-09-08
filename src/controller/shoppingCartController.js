@@ -1,84 +1,87 @@
-import Contenedor from '../model/Producto.js'
-import Chat from '../model/Chat.js'
+import Producto from "../model/Producto.js"
+import Carrito from "../model/Carrito.js"
 
-const contenedor = new Contenedor("productos.txt")
-const chat = new Chat("chat.txt")
+const producto = new Producto("productos.txt")
+const carrito = new Carrito("carrito.txt")
 
-const getAllProducts = async (req, res) => {
-  const {io} = req
+const getShoppingCartById = async (req,res) => {
+
+  const shoppingCartId = req.params.id
+
   try {
-      const products = await contenedor.getAll()
-      const messages = await chat.getAll()
+    let cart = await carrito.getCartById(shoppingCartId)
+
+    if(Array.isArray(cart)){
+
+      const productos = await producto.getAll()
+      const productosPopulados = cart[0].productos.map( prod =>{
+        
+        return productos.filter(p => p.id === prod.id)[0]
+      })
+
+      let shoppingCart = {...cart[0], productos: productosPopulados}
       
-      io.sockets.emit("server:products",products)
-      io.sockets.emit("server:messages",messages)
-
-      res.render('home.ejs', {productos: products, messages: messages})
-      
-  } catch (error) {
-      console.log(error)
-      res.sendStatus(500)
-  }
-}
-
-const getRandomProduct = async (req, res) => {
-  try {
-    const product = await contenedor.getRamdomProduct()
-    res.send(product)  
-  } catch (error) {
-    console.log(error)
-    res.sendStatus(500) 
-  }
-}
-
-const getProductById = async (req,res) => {
-  try {
-    let products = await contenedor.getById(req)
-    res.send(products)  
-  } catch (error) {
-    console.log(error)
-    res.sendStatus(500) 
-  }
-}
-
-const newProduct = async (req, res) => {
-  try {
-      let products = await contenedor.save(req)
-      //res.send(products)
-      res.redirect('/api/productos')
-  } catch (error) {
-      console.log(error)
-      res.sendStatus(500)
-  }
-
-}
-
-const updateProduct = async (req, res) => {
-  try {
-    let products = await contenedor.modifyById(req)
-    res.send(products)  
-  } catch (error) {
-    console.log(error)
-    res.sendStatus(500)
-  }
-}
-
-const deleteProductById = async (req, res) => {
-  try {
-    let products = await  contenedor.deleteById(req)
-    res.send(products)
-  } catch (error) {
-    console.log(error)
-    res.sendStatus(500)
-  }
-}
-
-const getProductForm = (req,res) => {
+      res.send(shoppingCart)
+    } else {
+      res.send({message: `el carrito con id ${shoppingCartId} no existe`})
+    }
   
-  const {io} = req
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500) 
+  }
+}
 
+const newShoppingCart = async (req, res) => {
   try {
-    res.render('form.ejs',{productos: productos})
+      const shoppingCartId = await carrito.create(req)
+      
+      res.send({shoppingCartId})
+      
+  } catch (error) {
+      console.log(error)
+      res.sendStatus(500)
+  }
+
+}
+
+const addProductShoppingCart = async (req, res) => {
+
+  const shoppingCartId = req.params.id
+  const {productId} = req.body
+  try {
+
+    // revisamos que el producto exista
+    const productById = await producto.getById(productId)
+    if(Array.isArray(productById)){
+      req.params.id = shoppingCartId
+      let shoppingCart = await carrito.addProduct(req)
+
+      res.send(shoppingCart)
+    } else {
+      res.send({message: `el producto con id ${productId} no existe`})
+    }
+
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500)
+  }
+}
+
+const deleteShoppingCartById = async (req, res) => {
+  try {
+    let response = await carrito.deleteById(req)
+    res.send(response)
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500)
+  }
+}
+
+const deleteProductShoppingCartById = async (req, res) => {
+  try {
+    let response = await carrito.deleteProductById(req)
+    res.send(response)
   } catch (error) {
     console.log(error)
     res.sendStatus(500)
@@ -86,5 +89,5 @@ const getProductForm = (req,res) => {
 }
 
 export {
-  getAllProducts, getRandomProduct, getProductById, 
-  newProduct, updateProduct, deleteProductById, getProductForm}
+  getShoppingCartById, newShoppingCart, addProductShoppingCart, 
+  deleteShoppingCartById, deleteProductShoppingCartById }

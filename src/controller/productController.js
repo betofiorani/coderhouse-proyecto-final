@@ -27,8 +27,11 @@ const getRandomProduct = async (req, res) => {
 }
 
 const getProductById = async (req,res) => {
+
+  const {id} = req.params
+
   try {
-    let products = await producto.getById(req)
+    let products = await producto.getById(id)
     res.send(products)  
   } catch (error) {
     console.log(error)

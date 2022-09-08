@@ -52,7 +52,7 @@
 	{
 		"id": 13,
 		"codigo": "LPM3",
-		"nombre": "Gato falso",
+		"nombre": "Gato VERDADERO",
 		"descripcion": "lalalalallalala",
 		"foto": "https://img.freepik.com/vector-gratis/lindo-gato-estirando-dibujos-animados-vector-icono-ilustracion-animal-naturaleza-icono-concepto-aislado-plano_138676-4515.jpg?w=2000",
 		"timestamp": "2022-09-06T19:46:59.743Z",

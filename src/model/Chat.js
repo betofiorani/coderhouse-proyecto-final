@@ -12,18 +12,14 @@ class Chat {
 
     try{
 
-        console.log("prueba1",fs.existsSync(`${path}${this.fileName}`))
-
         const messages = fs.existsSync(`${path}${this.fileName}`) ? await JSON.parse(await fs.promises.readFile(`${path}${this.fileName}`, 'utf-8')) : []
-        console.log("desde try catch", messages)
+
         const date = new Date()
         const date_formated = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
         const newMessage = {userEmail,message,date: date_formated}
 
         messages.push(newMessage)
         
-        console.log("messages")
-
         await fs.promises.writeFile(`${path}${this.fileName}`, JSON.stringify(messages, null, "\t"))
         
         return newMessage

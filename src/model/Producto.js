@@ -39,13 +39,14 @@ class Producto {
         console.log(`Ocurrió un error al guardar el producto. El error es: ${error}`)
     }
   } 
-  getById = async req => {
+  getById = async id => {
 
-    const {id} = req.params
+    console.log("desde getId", id)
 
     try{
       
       const products = fs.existsSync(`${path}${this.fileName}`) ? await JSON.parse(await fs.promises.readFile(`${path}${this.fileName}`, 'utf-8')) : []        
+      console.log("products", products)
       const productFiltered = products.filter(product => product.id == id)
       
       return productFiltered.length > 0 ? productFiltered : {error: `Producto con id ${id} no encontrado`}
