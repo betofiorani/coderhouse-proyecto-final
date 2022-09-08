@@ -7,6 +7,7 @@ import {
   updateProduct,
   deleteProductById,
   getProductForm } from '../controller/productController.js';
+import { validAdmin } from '../utils/middlewares.js'
 
 const productRouter = Router()
 
@@ -14,8 +15,8 @@ productRouter.get('/', getAllProducts)
 productRouter.get('/random-product', getRandomProduct)
 productRouter.get('/product-form', getProductForm)
 productRouter.get('/:id', getProductById)
-productRouter.post('/', newProduct)
-productRouter.put('/:id', updateProduct)
-productRouter.delete('/:id', deleteProductById)
+productRouter.post('/', validAdmin, newProduct)
+productRouter.put('/:id', validAdmin, updateProduct)
+productRouter.delete('/:id', validAdmin, deleteProductById)
 
 export default productRouter
