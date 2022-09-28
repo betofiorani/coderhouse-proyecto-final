@@ -1,4 +1,5 @@
 import express from "express";
+import { environment } from "./src/environment/environment.js";
 import productRouter from "./src/router/productRouter.js";
 import chatRouter from "./src/router/chatRouter.js";
 import templateRouter from "./src/router/templateRouter.js";
@@ -11,10 +12,9 @@ import { Server as HttpServer } from 'http'
 
 const app = express()
 const httpServer = new HttpServer(app);
-const PORT = 8080
 
-httpServer.listen(PORT, () => {
-  console.log(`Server listening on Port: ${PORT}`)
+httpServer.listen(environment.PORT, () => {
+  console.log(`Server listening on Port: ${environment.PORT}`)
 })
 
 const io = new ServerIO(httpServer)

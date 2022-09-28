@@ -1,2 +1,4 @@
 node_modules
 aprobados
+.env
+firebase-secret-key.json
