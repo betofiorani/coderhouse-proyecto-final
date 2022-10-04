@@ -1,8 +1,6 @@
-import Producto from '../model/Producto.js'
-import Chat from '../model/Chat.js'
+import dao from '../DAO/index.js'
 
-const producto = new Producto("productos.txt")
-const chat = new Chat("chat.txt")
+const producto = dao.ProductDao
 
 const getAllProducts = async (req, res) => {
   
@@ -13,16 +11,6 @@ const getAllProducts = async (req, res) => {
   } catch (error) {
       console.log(error)
       res.sendStatus(500)
-  }
-}
-
-const getRandomProduct = async (req, res) => {
-  try {
-    const product = await producto.getRamdomProduct()
-    res.send(product)  
-  } catch (error) {
-    console.log(error)
-    res.sendStatus(500) 
   }
 }
 
@@ -42,7 +30,7 @@ const getProductById = async (req,res) => {
 const newProduct = async (req, res) => {
   
   try {
-      let newProduct = await producto.save(req)
+      let newProduct = await producto.create(req.body)
       
       res.send(newProduct)
       
@@ -54,8 +42,12 @@ const newProduct = async (req, res) => {
 }
 
 const updateProduct = async (req, res) => {
+
+  const {id} = req.params
+  const data = req.body 
+
   try {
-    let products = await producto.modifyById(req)
+    let products = await producto.updateById(id, data)
     res.send(products)  
   } catch (error) {
     console.log(error)
@@ -64,8 +56,10 @@ const updateProduct = async (req, res) => {
 }
 
 const deleteProductById = async (req, res) => {
+  
+  const {id} = req.params
   try {
-    let products = await  producto.deleteById(req)
+    let products = await producto.deleteById(id)
     res.send(products)
   } catch (error) {
     console.log(error)

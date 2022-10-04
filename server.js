@@ -1,4 +1,6 @@
 import express from "express";
+import cors from "cors";
+import { environment } from "./src/environment/environment.js";
 import productRouter from "./src/router/productRouter.js";
 import chatRouter from "./src/router/chatRouter.js";
 import templateRouter from "./src/router/templateRouter.js";
@@ -11,10 +13,9 @@ import { Server as HttpServer } from 'http'
 
 const app = express()
 const httpServer = new HttpServer(app);
-const PORT = 8080
 
-httpServer.listen(PORT, () => {
-  console.log(`Server listening on Port: ${PORT}`)
+httpServer.listen(environment.PORT, () => {
+  console.log(`Server listening on Port: ${environment.PORT}`)
 })
 
 const io = new ServerIO(httpServer)
@@ -38,6 +39,24 @@ app.use((req, res, next) => {
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+// CONFIGURAR CORS
+const whitelist = [process.env.FRONTEND_URL, process.env.FRONTEND_URL_ALTERNATIVE]
+const corsOptions = {
+  origin: function(origin, callback){
+    
+    if(whitelist.includes(origin)){
+      // puede conectarse
+      callback(null, true)
+    }
+    else {
+      // no puede conectarse
+      callback(new Error("Error de cors"))
+    }
+  }
+}
+
+app.use(cors(corsOptions))
+
 // ejs
 app.set('views', path.join(__dirname,'./src/views'))
 app.set('view engine', 'ejs')
@@ -46,4 +65,3 @@ app.use('/api/productos', productRouter)
 app.use('/api/carrito', shoppingCartRouter)
 app.use('/api/chat', chatRouter)
 app.use('/api/template', templateRouter)
-

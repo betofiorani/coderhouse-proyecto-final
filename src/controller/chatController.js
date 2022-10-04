@@ -1,8 +1,6 @@
-// para en futuras entregas separar chat de productos
-// este va a ser el futuro controller de chat cuando esté asignado a su propia ruta.
+import dao from '../DAO/index.js'
 
-import Chat from '../model/Chat.js'
-const chat = new Chat("chat.txt")
+const chat = dao.ChatDao
 
 const getAllMessages = async (req, res) => {
   const {io} = req
