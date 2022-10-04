@@ -85,6 +85,18 @@ const getProductForm = (req,res) => {
   }
 }
 
+const getFakerProducts = async (req, res) => {
+  
+  try {
+      const productos = await producto.getAll()
+      res.send(productos)
+      
+  } catch (error) {
+      console.log(error)
+      res.sendStatus(500)
+  }
+}
+
 export {
-  getAllProducts, getRandomProduct, getProductById, 
+  getAllProducts, getProductById, getFakerProducts,
   newProduct, updateProduct, deleteProductById, getProductForm}

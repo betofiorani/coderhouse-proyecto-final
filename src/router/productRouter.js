@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { 
   getAllProducts, 
-  getRandomProduct, 
+  getFakerProducts,
   getProductById, 
   newProduct,
   updateProduct,
@@ -12,7 +12,7 @@ import { validAdmin } from '../utils/middlewares.js'
 const productRouter = Router()
 
 productRouter.get('/', getAllProducts)
-productRouter.get('/random-product', getRandomProduct)
+productRouter.get('/', getFakerProducts)
 productRouter.get('/product-form', getProductForm)
 productRouter.get('/:id', getProductById)
 productRouter.post('/', validAdmin, newProduct)
