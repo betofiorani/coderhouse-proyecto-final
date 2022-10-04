@@ -1,29 +1,39 @@
-import Producto from "../model/Producto.js"
-import Carrito from "../model/Carrito.js"
+import dao from '../DAO/index.js'
+import {environment} from '../environment/environment.js'
 
-const producto = new Producto("productos.txt")
-const carrito = new Carrito("carrito.txt")
+const producto = dao.ProductDao 
+const shoppingCart = dao.ShoppingCartDao
 
 const getShoppingCartById = async (req,res) => {
 
   const shoppingCartId = req.params.id
 
   try {
-    let cart = await carrito.getCartById(shoppingCartId)
 
-    if(Array.isArray(cart)){
-
-      const productos = await producto.getAll()
-      const productosPopulados = cart[0].productos.map( prod =>{
-        
-        return productos.filter(p => p.id === prod.id)[0]
-      })
-
-      let shoppingCart = {...cart[0], productos: productosPopulados}
+    let cart
       
-      res.send(shoppingCart)
+    if(environment.DATABASE === "mongodb"){
+      cart = await shoppingCart.getPopulateById(shoppingCartId, {path: 'productos.productoId'})
+    }
+    else {
+      cart = await shoppingCart.getById(shoppingCartId)
+
+      const productos = await cart[0].productos
+      
+      const promises = productos.map(prod => producto.getById(prod.productoId))
+
+      const promisesResolved = await Promise.all(promises)
+
+      const productosPopulados = promisesResolved.map(prod => ({productoId: prod[0]}))
+
+      cart[0]._id = shoppingCartId
+      cart[0].productos = productosPopulados
+    }
+
+    if(cart){
+      res.send(cart)
     } else {
-      res.send({message: `el carrito con id ${shoppingCartId} no existe`})
+      res.send({message: `el shoppingCart con id ${shoppingCartId} no existe`})
     }
   
   } catch (error) {
@@ -34,9 +44,9 @@ const getShoppingCartById = async (req,res) => {
 
 const newShoppingCart = async (req, res) => {
   try {
-      const shoppingCartId = await carrito.create(req)
+      const response = await shoppingCart.create({})
       
-      res.send({shoppingCartId})
+      res.send({shoppingCartId: response._id})
       
   } catch (error) {
       console.log(error)
@@ -53,11 +63,24 @@ const addProductShoppingCart = async (req, res) => {
 
     // revisamos que el producto exista
     const productById = await producto.getById(productId)
+    
     if(Array.isArray(productById)){
-      req.params.id = shoppingCartId
-      let shoppingCart = await carrito.addProduct(req)
+      
+      const cart = await shoppingCart.getById(shoppingCartId)
+      console.log("cart", cart)
+      if(cart){
+        const productosCarrito = await cart[0].productos
+        productosCarrito.push({productoId: productId,quantity:1})
 
-      res.send(shoppingCart)
+        await shoppingCart.updateById(shoppingCartId, {productos: productosCarrito})
+
+        const cartUpdated = {_id: cart[0]._id, productos: productosCarrito, createdAt: cart[0].createdAt, updatedAt: cart[0].updatedAt}
+        res.send(cartUpdated)
+      }
+      else {
+        res.send({message: `el carrito con id ${shoppingCartId} no existe`})
+      }
+      
     } else {
       res.send({message: `el producto con id ${productId} no existe`})
     }
@@ -69,8 +92,11 @@ const addProductShoppingCart = async (req, res) => {
 }
 
 const deleteShoppingCartById = async (req, res) => {
+
+  const {id} = req.params
+  console.log("desde delete", id)
   try {
-    let response = await carrito.deleteById(req)
+    let response = await shoppingCart.deleteById(id)
     res.send(response)
   } catch (error) {
     console.log(error)
@@ -79,9 +105,28 @@ const deleteShoppingCartById = async (req, res) => {
 }
 
 const deleteProductShoppingCartById = async (req, res) => {
+
+  const {id, id_prod} = req.params
+
   try {
-    let response = await carrito.deleteProductById(req)
-    res.send(response)
+
+    const cart = await shoppingCart.getById(id)
+    
+    if(cart){
+      const productosCarrito = await cart[0].productos
+
+      const productosFiltrados = productosCarrito.filter(producto => producto.productoId.toString() !== id_prod)
+      
+      await shoppingCart.updateById(id, {productos: productosFiltrados})
+
+      const cartUpdated = {_id: cart[0]._id, productos: productosFiltrados, createdAt: cart[0].createdAt, updatedAt: cart[0].updatedAt}
+      
+      res.send(cartUpdated)
+    }
+    else {
+      res.send({message: `el carrito con id ${shoppingCartId} no existe`})
+    }
+
   } catch (error) {
     console.log(error)
     res.sendStatus(500)
