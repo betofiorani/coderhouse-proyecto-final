@@ -5,6 +5,7 @@ import productRouter from "./src/router/productRouter.js";
 import chatRouter from "./src/router/chatRouter.js";
 import templateRouter from "./src/router/templateRouter.js";
 import shoppingCartRouter from "./src/router/shoppingCartRouter.js";
+import productFakerRouter from "./src/router/productFakerRouter.js";
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -18,10 +19,18 @@ httpServer.listen(environment.PORT, () => {
   console.log(`Server listening on Port: ${environment.PORT}`)
 })
 
-const io = new ServerIO(httpServer)
+const io = new ServerIO(httpServer, {
+  cors: {
+      origin: "http://localhost:3000"
+  }
+})
 
 io.on('connection', socket => {
-  console.log("conectado", socket.id)
+  console.log(`⚡: ${socket.id} user just connected!`);
+  socket.on('disconnect', () => {
+    console.log('🔥: A user disconnected');
+  });
+  socket.emit('connection', "conectado")
 })
 
 //Statics
@@ -40,7 +49,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // CONFIGURAR CORS
-const whitelist = [process.env.FRONTEND_URL, process.env.FRONTEND_URL_ALTERNATIVE]
+const whitelist = [process.env.FRONTEND_URL, process.env.FRONTEND_URL_ALTERNATIVE, "*"]
 const corsOptions = {
   origin: function(origin, callback){
     
@@ -62,6 +71,7 @@ app.set('views', path.join(__dirname,'./src/views'))
 app.set('view engine', 'ejs')
 
 app.use('/api/productos', productRouter)
+app.use('/api/productos-test',productFakerRouter)
 app.use('/api/carrito', shoppingCartRouter)
 app.use('/api/chat', chatRouter)
 app.use('/api/template', templateRouter)

@@ -1,3 +1,4 @@
+import {faker} from '@faker-js/faker'
 import dao from '../DAO/index.js'
 
 const producto = dao.ProductDao
@@ -80,10 +81,26 @@ const getProductForm = (req,res) => {
 }
 
 const getFakerProducts = async (req, res) => {
+
+  const {cantidad} = req.params
+
+  const randomProductsFaker = []
+
+  for (let i = 1; i <= cantidad*1; i++){
+      randomProductsFaker.push({
+          _id: i,
+          code: faker.random.numeric(),
+          title: faker.commerce.product(),
+          price: faker.commerce.price(),
+          thumbnail: faker.image.food(undefined, undefined, true),
+          description: faker.commerce.productDescription(),
+          stock: 5
+      })
+  }
   
   try {
-      const productos = await producto.getAll()
-      res.send(productos)
+      
+      res.send(randomProductsFaker)
       
   } catch (error) {
       console.log(error)
