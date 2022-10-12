@@ -12,7 +12,6 @@ import { validAdmin } from '../utils/middlewares.js'
 const productRouter = Router()
 
 productRouter.get('/', getAllProducts)
-productRouter.get('/', getFakerProducts)
 productRouter.get('/product-form', getProductForm)
 productRouter.get('/:id', getProductById)
 productRouter.post('/', validAdmin, newProduct)
