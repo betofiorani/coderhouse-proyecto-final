@@ -1,16 +1,22 @@
 import express from "express";
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
 import cors from "cors";
-import { environment } from "./src/environment/environment.js";
-import productRouter from "./src/router/productRouter.js";
-import chatRouter from "./src/router/chatRouter.js";
-import templateRouter from "./src/router/templateRouter.js";
-import shoppingCartRouter from "./src/router/shoppingCartRouter.js";
-import productFakerRouter from "./src/router/productFakerRouter.js";
+import MongoStore from 'connect-mongo';
 
 import path from 'path';
 import { fileURLToPath } from 'url';
 import {Server as ServerIO} from 'socket.io'
 import { Server as HttpServer } from 'http'
+
+import { environment } from "./src/environment/environment.js";
+import productRouter from "./src/router/productRouter.js";
+import loginRouter from "./src/router/loginRouter.js";
+import chatRouter from "./src/router/chatRouter.js";
+import templateRouter from "./src/router/templateRouter.js";
+import shoppingCartRouter from "./src/router/shoppingCartRouter.js";
+import productFakerRouter from "./src/router/productFakerRouter.js";
+
 
 const app = express()
 const httpServer = new HttpServer(app);
@@ -24,6 +30,27 @@ const io = new ServerIO(httpServer, {
       origin: "http://localhost:3000"
   }
 })
+
+
+//Configuracion session
+const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true };
+app.use(cookieParser());
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: environment.MONGO_STRING_CONNECTION_SESSION,
+      mongoOptions,
+    }),
+    secret: "coderhouse",
+    resave: false,
+    saveUninitialized: false,
+    rolling: true, //ACA LO QUE HACEMOS ES DECIRLE QUE NOS RENUEVE EL TIEMPO DE EXPIRACION DE LA SESION CON CADA REQUEST
+    cookie: {
+      secure: false,
+      maxAge: 120000,
+    },
+  })
+)
 
 io.on('connection', socket => {
   console.log(`⚡: ${socket.id} user just connected!`);
@@ -61,7 +88,8 @@ const corsOptions = {
       // no puede conectarse
       callback(new Error("Error de cors"))
     }
-  }
+  },
+  credentials: true,
 }
 
 app.use(cors(corsOptions))
@@ -74,4 +102,5 @@ app.use('/api/productos', productRouter)
 app.use('/api/productos-test',productFakerRouter)
 app.use('/api/carrito', shoppingCartRouter)
 app.use('/api/chat', chatRouter)
+app.use('/api/login', loginRouter)
 app.use('/api/template', templateRouter)
