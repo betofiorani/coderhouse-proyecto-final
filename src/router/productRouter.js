@@ -7,15 +7,15 @@ import {
   updateProduct,
   deleteProductById,
   getProductForm } from '../controller/productController.js';
-import { validAdmin } from '../utils/middlewares.js'
+import { loginMiddleware } from '../utils/middlewares.js'
 
 const productRouter = Router()
 
-productRouter.get('/', getAllProducts)
+productRouter.get('/', loginMiddleware, getAllProducts)
 productRouter.get('/product-form', getProductForm)
-productRouter.get('/:id', getProductById)
-productRouter.post('/', validAdmin, newProduct)
-productRouter.put('/:id', validAdmin, updateProduct)
-productRouter.delete('/:id', validAdmin, deleteProductById)
+productRouter.get('/:id', loginMiddleware, getProductById)
+productRouter.post('/', loginMiddleware, newProduct)
+productRouter.put('/:id', loginMiddleware, updateProduct)
+productRouter.delete('/:id', loginMiddleware, deleteProductById)
 
 export default productRouter
