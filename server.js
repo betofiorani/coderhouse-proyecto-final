@@ -3,20 +3,22 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from "cors";
 import MongoStore from 'connect-mongo';
-
 import path from 'path';
 import { fileURLToPath } from 'url';
 import {Server as ServerIO} from 'socket.io'
 import { Server as HttpServer } from 'http'
-
+import passport from 'passport';
+import { Strategy as LocalStrategy } from "passport-local";
 import { environment } from "./src/environment/environment.js";
 import productRouter from "./src/router/productRouter.js";
 import loginRouter from "./src/router/loginRouter.js";
+import registerRouter from "./src/router/registerRouter.js";
 import chatRouter from "./src/router/chatRouter.js";
 import templateRouter from "./src/router/templateRouter.js";
 import shoppingCartRouter from "./src/router/shoppingCartRouter.js";
 import productFakerRouter from "./src/router/productFakerRouter.js";
-
+import { hashPassword, isValidPassword } from './src/utils/bcryptPasswords.js'
+import User from "./src/model/User.js";
 
 const app = express()
 const httpServer = new HttpServer(app);
@@ -94,6 +96,71 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
+//middleware de aplicacion passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Estrategia de registro
+const registerStrategy = new LocalStrategy(
+  { passReqToCallback: true },
+  async (req, username, password, done) => {
+      try {
+          const existingUser = await User.findOne({ username })
+
+          if(existingUser){
+              return done(null, null)
+          }
+
+          const newUser = {
+              username,
+              password: hashPassword(password),
+              firstName: req.body.firstName,
+              lastName: req.body.lastName,
+              email: req.body.email
+          }
+          console.log("Nuevo usuario creado: ",newUser)
+
+          const createdUser = await User.create(newUser)
+          done(null, createdUser)
+
+      } catch (error) {
+          console.log("Error registrando usuario", error)
+          done("Error en registro", null)
+      }
+  }
+)
+
+// Estrategia de logueo
+const loginStrategy = new LocalStrategy(
+  async (username, password, done) => {
+      try {
+          const user = await User.findOne({ username })
+          if(!user || !isValidPassword(password, user.password)){
+              return done(null, null)
+          }
+
+          done(null, user)
+          
+      } catch (error) {
+          console.log("Error login", err);
+          done("Error login", null);
+      }
+  }
+)
+//------------------------------------------------
+
+passport.use("register", registerStrategy);
+passport.use("login", loginStrategy);
+
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, done);
+});
+
+
 // ejs
 app.set('views', path.join(__dirname,'./src/views'))
 app.set('view engine', 'ejs')
@@ -103,4 +170,5 @@ app.use('/api/productos-test',productFakerRouter)
 app.use('/api/carrito', shoppingCartRouter)
 app.use('/api/chat', chatRouter)
 app.use('/api/login', loginRouter)
+app.use('/api/register', registerRouter)
 app.use('/api/template', templateRouter)

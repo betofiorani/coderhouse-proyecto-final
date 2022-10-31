@@ -1,9 +1,11 @@
 import { Router } from 'express';
-import { login, logout } from '../controller/loginController.js';
+import passport from 'passport';
+import { login, loginError, logout } from '../controller/loginController.js';
 
   const loginRouter = Router()
 
-  loginRouter.post('/', login)
+  loginRouter.post('/', passport.authenticate("login", { failureRedirect: "/api/login/error" }), login)
+  loginRouter.get('/error', loginError)
   loginRouter.get('/logout', logout)
   
   export default loginRouter
