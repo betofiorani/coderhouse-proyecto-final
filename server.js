@@ -19,12 +19,25 @@ import shoppingCartRouter from "./src/router/shoppingCartRouter.js";
 import productFakerRouter from "./src/router/productFakerRouter.js";
 import { hashPassword, isValidPassword } from './src/utils/bcryptPasswords.js'
 import User from "./src/model/User.js";
+import yargs from 'yargs'
+import infoRouter from "./src/router/infoRouter.js";
+import randomRouter from "./src/router/randomRouter.js";
+
+const yargsOptions = yargs(process.argv.slice(2))
+
+const args = yargsOptions.alias({
+  p: "port"
+}).default({
+  port: 8080
+}).argv
+
+const PORT = args.port
 
 const app = express()
 const httpServer = new HttpServer(app);
 
-httpServer.listen(environment.PORT, () => {
-  console.log(`Server listening on Port: ${environment.PORT}`)
+httpServer.listen(PORT, () => {
+  console.log(`Server listening on Port: ${PORT}`)
 })
 
 const io = new ServerIO(httpServer, {
@@ -172,3 +185,7 @@ app.use('/api/chat', chatRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/register', registerRouter)
 app.use('/api/template', templateRouter)
+app.use('/api/info', infoRouter)
+app.use('/api/randoms', randomRouter)
+
+export { args }
