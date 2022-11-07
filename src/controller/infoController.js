@@ -1,3 +1,4 @@
+import os from 'os'
 import { args } from "../../server.js"
 
 const getInfo = async (req, res) => {
@@ -8,7 +9,8 @@ const getInfo = async (req, res) => {
         memoriaTotalReservada: process.memoryUsage().rss,
         pathExec: process.execPath,
         processId: process.pid,
-        carpetaProyecto: process.cwd()
+        carpetaProyecto: process.cwd(),
+        cantCPUs: os.cpus().length
     }
     res.send({info})
 }
