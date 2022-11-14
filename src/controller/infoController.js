@@ -1,7 +1,7 @@
 import os from 'os'
-import { args } from "../../server.js"
 
 const getInfo = async (req, res) => {
+    const { args } = req
     const info = {
         puerto: args.port,
         plataforma: process.platform,

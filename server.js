@@ -24,6 +24,8 @@ import infoRouter from "./src/router/infoRouter.js";
 import randomRouter from "./src/router/randomRouter.js";
 import cluster from 'cluster';
 import os from 'os';
+import compression from 'compression';
+import logger from './src/utils/logger.js';
 
 const cpus = os.cpus()
 
@@ -132,6 +134,13 @@ if(isCluster && cluster.isPrimary) {
   //middleware de aplicacion passport
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(compression())
+
+  //middleware de aplicacion para pasar los args en el req
+  app.use((req, res, next) => {
+    req.args = args
+    next()
+  })
 
   // Estrategia de registro
   const registerStrategy = new LocalStrategy(
@@ -193,6 +202,11 @@ if(isCluster && cluster.isPrimary) {
     User.findById(id, done);
   });
 
+  //middleware con logger para metodos y url
+  app.use( (req, res, next) => {
+    logger.info(`Peticion a ruta ${req.url} con metodo ${req.method} recibida.`)
+    next()
+  })
 
   // ejs
   app.set('views', path.join(__dirname,'./src/views'))
@@ -209,4 +223,3 @@ if(isCluster && cluster.isPrimary) {
   app.use('/api/randoms', randomRouter)
 
 }
-export { args }
