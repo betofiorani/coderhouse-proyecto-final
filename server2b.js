@@ -198,15 +198,15 @@ if(isCluster && cluster.isPrimary) {
   app.set('views', path.join(__dirname,'./src/views'))
   app.set('view engine', 'ejs')
 
-  app.use('/api/productos', productRouter)
-  app.use('/api/productos-test',productFakerRouter)
-  app.use('/api/carrito', shoppingCartRouter)
-  app.use('/api/chat', chatRouter)
-  app.use('/api/login', loginRouter)
-  app.use('/api/register', registerRouter)
-  app.use('/api/template', templateRouter)
-  app.use('/api/info', infoRouter)
-  app.use('/api/randoms', randomRouter)
+  app.use('/api2/productos', productRouter)
+  app.use('/api2/productos-test',productFakerRouter)
+  app.use('/api2/carrito', shoppingCartRouter)
+  app.use('/api2/chat', chatRouter)
+  app.use('/api2/login', loginRouter)
+  app.use('/api2/register', registerRouter)
+  app.use('/api2/template', templateRouter)
+  app.use('/api2/info', infoRouter)
+  app.use('/api2/randoms', randomRouter)
 
 }
 export { args }
