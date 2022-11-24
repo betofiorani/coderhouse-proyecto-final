@@ -1,5 +1,5 @@
 import MongoContainer from "../../container/ContainerMongo.js";
-import Chat from "../../model/chat.js";
+import Chat from "../../model/Chat.js";
 
 class ChatDaoMongo extends MongoContainer {
     constructor() {
