@@ -24,6 +24,7 @@ import infoRouter from "./src/router/infoRouter.js";
 import randomRouter from "./src/router/randomRouter.js";
 import cluster from 'cluster';
 import os from 'os';
+import { environment } from "./src/environment/environment.js";
 
 const cpus = os.cpus()
 
@@ -56,8 +57,8 @@ if(isCluster && cluster.isPrimary) {
   const app = express()
   const httpServer = new HttpServer(app);
  
-  httpServer.listen(process.env.PORT || 4000, '0.0.0.0', () => {
-    console.log(`Server listening on Port: ${PORT}`)
+  httpServer.listen(environment.PORT, '0.0.0.0', () => {
+    console.log(`Server listening on Port: ${environment.PORT}`)
   })
 
   const io = new ServerIO(httpServer, {
