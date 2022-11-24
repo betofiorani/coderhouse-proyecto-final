@@ -39,7 +39,7 @@ const args = yargsOptions.alias({
 
 console.log("Modo de inicio de servidor: ", args.m)
 
-const PORT = args.port
+//const PORT = args.port
 
 const isCluster= args.m == 'cluster'
 
@@ -55,14 +55,14 @@ if(isCluster && cluster.isPrimary) {
 
   const app = express()
   const httpServer = new HttpServer(app);
-
-  httpServer.listen(PORT, () => {
+ 
+  httpServer.listen(process.env.PORT || 4000, '0.0.0.0', () => {
     console.log(`Server listening on Port: ${PORT}`)
   })
 
   const io = new ServerIO(httpServer, {
     cors: {
-        origin: "https://coderhouse-fp-front.web.app"
+        origin: process.env.FRONTEND_URL
     }
   })
 
