@@ -62,7 +62,7 @@ if(isCluster && cluster.isPrimary) {
 
   const io = new ServerIO(httpServer, {
     cors: {
-        origin: "http://localhost:3000"
+        origin: "https://coderhouse-fp-front.web.app"
     }
   })
 
