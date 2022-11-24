@@ -24,7 +24,6 @@ import infoRouter from "./src/router/infoRouter.js";
 import randomRouter from "./src/router/randomRouter.js";
 import cluster from 'cluster';
 import os from 'os';
-import { environment } from "./src/environment/environment.js";
 
 const cpus = os.cpus()
 
