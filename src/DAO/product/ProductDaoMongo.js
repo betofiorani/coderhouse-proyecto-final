@@ -1,4 +1,4 @@
-import MongoContainer from "../../container/mongoContainer.js";
+import MongoContainer from "../../container/ContainerMongo.js";
 import Producto from "../../model/Producto.js";
 
 class ProductDaoMongo extends MongoContainer {
