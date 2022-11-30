@@ -2,9 +2,9 @@
 const login = async (req, res) => {
 
     req.session.user = req.body.username
-    req.session.save()
 
     console.log("req.session post login", req.session.user)
+    console.log("así queda la session", req.session)
 
     try {    
         res.send({status: "OK", username: req.body.username})
