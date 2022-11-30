@@ -14,6 +14,7 @@ const validAdmin = async (req, res, next) =>{
 const loginMiddleware = (req, res, next) => {
 
     console.log("request", req.session.user)
+    console.log("request", req.session)
 
     if(!req.session.user) {
         res.send({
