@@ -76,11 +76,12 @@ if(isCluster && cluster.isPrimary) {
         mongoUrl: environment.MONGO_STRING_CONNECTION_SESSION,
         mongoOptions,
       }),
-      secret: "coderhouse",
+      secret: environment.SECRET_SESSION,
       resave: false,
       saveUninitialized: false,
       rolling: true, //ACA LO QUE HACEMOS ES DECIRLE QUE NOS RENUEVE EL TIEMPO DE EXPIRACION DE LA SESION CON CADA REQUEST
       cookie: {
+        httpOnly: false,
         secure: false,
         maxAge: 120000,
       },
