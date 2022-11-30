@@ -60,31 +60,32 @@ if(isCluster && cluster.isPrimary) {
     console.log(`Server listening on Port: ${environment.PORT}`)
   })
 
+  // CONFIGURAR CORS
+  const whitelist = [process.env.FRONTEND_URL, process.env.FRONTEND_URL_ALTERNATIVE, "*"]
+  const corsOptions = {
+    origin: function(origin, callback){
+      
+      if(whitelist.includes(origin)){
+        // puede conectarse
+        callback(null, true)
+      }
+      else {
+        // no puede conectarse
+        callback(new Error("Error de cors"))
+      }
+    },
+    credentials: true,
+  }
+
+  app.use(cors(corsOptions))
+
   const io = new ServerIO(httpServer, {
     cors: {
         origin: process.env.FRONTEND_URL
     }
   })
 
-    // CONFIGURAR CORS
-    const whitelist = [process.env.FRONTEND_URL, process.env.FRONTEND_URL_ALTERNATIVE, "*"]
-    const corsOptions = {
-      origin: function(origin, callback){
-        
-        if(whitelist.includes(origin)){
-          // puede conectarse
-          callback(null, true)
-        }
-        else {
-          // no puede conectarse
-          callback(new Error("Error de cors"))
-        }
-      },
-      credentials: true,
-    }
-  
-    app.use(cors(corsOptions))
-  
+
   //Configuracion session
   const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true };
   app.use(cookieParser());
@@ -98,6 +99,11 @@ if(isCluster && cluster.isPrimary) {
       resave: false,
       saveUninitialized: false,
       rolling: true, //ACA LO QUE HACEMOS ES DECIRLE QUE NOS RENUEVE EL TIEMPO DE EXPIRACION DE LA SESION CON CADA REQUEST
+      cookie: {
+        httpOnly: false,
+        secure: false,
+        maxAge: 120000,
+      },
     })
   )
 
@@ -123,7 +129,6 @@ if(isCluster && cluster.isPrimary) {
 
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
-
 
   //middleware de aplicacion passport
   app.use(passport.initialize());
