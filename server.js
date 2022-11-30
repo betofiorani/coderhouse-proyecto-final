@@ -63,17 +63,7 @@ if(isCluster && cluster.isPrimary) {
   // CONFIGURAR CORS
   const whitelist = [process.env.FRONTEND_URL, process.env.FRONTEND_URL_ALTERNATIVE, "*"]
   const corsOptions = {
-    origin: function(origin, callback){
-      
-      if(whitelist.includes(origin)){
-        // puede conectarse
-        callback(null, true)
-      }
-      else {
-        // no puede conectarse
-        callback(new Error("Error de cors"))
-      }
-    },
+    origin: true,
     credentials: true,
   }
 
@@ -96,8 +86,8 @@ if(isCluster && cluster.isPrimary) {
         mongoOptions,
       }),
       secret: environment.SECRET_SESSION,
-      resave: false,
-      saveUninitialized: false,
+      resave: true,
+      saveUninitialized: true,
       rolling: true, //ACA LO QUE HACEMOS ES DECIRLE QUE NOS RENUEVE EL TIEMPO DE EXPIRACION DE LA SESION CON CADA REQUEST
       cookie: {
         httpOnly: false,
