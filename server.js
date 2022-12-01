@@ -98,10 +98,12 @@ if(isCluster && cluster.isPrimary) {
       secret: environment.SECRET_SESSION,
       name: 'beto-coder',
       resave: false,
-      saveUninitialized: false,
+      saveUninitialized: true,
       rolling: true, //ACA LO QUE HACEMOS ES DECIRLE QUE NOS RENUEVE EL TIEMPO DE EXPIRACION DE LA SESION CON CADA REQUEST
       cookie: {
-        secure: false,
+        secure: true,
+        httpOnly: false,
+        sameSite: 'none',
         maxAge: 120000,
       },
     })
