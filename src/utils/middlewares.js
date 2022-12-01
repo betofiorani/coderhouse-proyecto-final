@@ -1,15 +1,4 @@
-const admin = true
-
-const validAdmin = async (req, res, next) =>{
-    if(admin){
-        next()
-    } else {
-        res.send({
-            error: -1,
-            descripcion: "Este usuario no tiene los permisos para realizar esta operacion"
-        })
-    }
-}
+const admin = false
 
 const loginMiddleware = (req, res, next) => {
 
@@ -17,7 +6,7 @@ const loginMiddleware = (req, res, next) => {
     console.log("request", req.session)
     console.log("ID", req.sessionID)
 
-    if(!req.session.user) {
+    if(!req.session.user || admin === false) {
         res.send({
             error: -1,
             descripcion: "Este usuario no tiene los permisos para realizar esta operación"
@@ -28,4 +17,4 @@ const loginMiddleware = (req, res, next) => {
     }
 }
 
-export {validAdmin, loginMiddleware}
+export {loginMiddleware}
