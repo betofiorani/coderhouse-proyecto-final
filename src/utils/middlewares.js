@@ -15,6 +15,7 @@ const loginMiddleware = (req, res, next) => {
 
     console.log("request", req.session.user)
     console.log("request", req.session)
+    console.log("ID", req.sessionID)
 
     if(!req.session.user) {
         res.send({
