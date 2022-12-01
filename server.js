@@ -142,22 +142,28 @@ if(isCluster && cluster.isPrimary) {
     async (req, username, password, done) => {
         try {
             const existingUser = await User.findOne({ username })
-
+            
             if(existingUser){
-                return done(null, null)
-            }
+              
+              req.body.existingUser = true
+              return done(null, existingUser)
+            } else {
 
-            const newUser = {
-                username,
-                password: hashPassword(password),
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email
+              const newUser = {
+                  username,
+                  password: hashPassword(password),
+                  firstName: req.body.firstName,
+                  lastName: req.body.lastName,
+                  email: req.body.email,
+                  celular: req.body.celular,
+                  age: req.body.age *1,
+                  avatar: req.body.avatar
+              }
+              console.log("Nuevo usuario creado: ",newUser)
+  
+              const createdUser = await User.create(newUser)
+              done(null, createdUser)
             }
-            console.log("Nuevo usuario creado: ",newUser)
-
-            const createdUser = await User.create(newUser)
-            done(null, createdUser)
 
         } catch (error) {
             console.log("Error registrando usuario", error)
