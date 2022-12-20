@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
-import config from "../database/config.js";
+import config from "../../database/config.js";
 
 mongoose.connect(config.mongodb.connectionString)
-console.log("conexión exitosa a MONGO ATLAS")
 
-class MongoContainer {
+class BaseRepository {
     constructor(model){
         this.collection = model
     }
@@ -42,4 +41,4 @@ class MongoContainer {
     }
 }
 
-export default MongoContainer
+export default BaseRepository

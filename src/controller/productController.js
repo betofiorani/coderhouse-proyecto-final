@@ -1,7 +1,7 @@
 import {faker} from '@faker-js/faker'
-import dao from '../DAO/index.js'
+import ProductDaoMongo from '../DAO/product/ProductDaoMongo.js'
 
-const producto = dao.ProductDao
+const producto = ProductDaoMongo.getInstance()
 
 const getAllProducts = async (req, res) => {
   

@@ -1,8 +1,9 @@
-import dao from '../DAO/index.js'
 import {environment} from '../environment/environment.js'
+import ProductDaoMongo from '../DAO/product/ProductDaoMongo.js'
+import ShoppingCartDaoMongo from '../DAO/shoppingCart/ShoppingCartDaoMongo.js'
 
-const producto = dao.ProductDao 
-const shoppingCart = dao.ShoppingCartDao
+const producto = ProductDaoMongo.getInstance() 
+const shoppingCart = ShoppingCartDaoMongo.getInstance()
 
 const getShoppingCartById = async (req,res) => {
 

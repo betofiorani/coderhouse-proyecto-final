@@ -1,7 +1,7 @@
-import dao from '../DAO/index.js'
 import { normalizedMessages } from '../utils/normalize.js'
+import ChatDaoMongo from '../DAO/chat/ChatDaoMongo.js'
 
-const chat = dao.ChatDao
+const chat = ChatDaoMongo.getInstance()
 
 const getAllMessages = async (req, res) => {
   const {io} = req

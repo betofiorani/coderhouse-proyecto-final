@@ -1,9 +1,18 @@
-import MongoContainer from "../../container/ContainerMongo.js";
+import BaseRepository from "../baseRepository/BaseRepository.js";
 import Chat from "../../model/Chat.js";
 
-class ChatDaoMongo extends MongoContainer {
+let instance
+
+class ChatDaoMongo extends BaseRepository {
     constructor() {
         super( Chat )
+    }
+    
+    static getInstance() {
+      if (!instance) {
+        instance = new ChatDaoMongo();
+      }
+      return instance;
     }
 }
 
